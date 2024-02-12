@@ -8,10 +8,10 @@
     ansible-inventory -i inventory/aws_ec2.yml --graph
 
     # create AWS infra
-    ansible-playbook -i inventory/localhost playbooks/create-on-aws.yml
+    ansible-playbook -i inventory/localhost create-on-aws.yml
 
     # configure k8s
-    ansible-playbook -i inventory/aws_ec2.yml playbooks/configure-k8s.yml
+    ansible-playbook -i inventory/aws_ec2.yml configure-k8s.yml
 
     # terminate AWS infra
-    ansible-playbook -i inventory/aws_ec2.yml playbooks/terminate.yml
+    ansible-playbook -i inventory/aws_ec2.yml terminate.yml
