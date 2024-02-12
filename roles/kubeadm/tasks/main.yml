@@ -1,0 +1,50 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+
+- name: ensure dependencies are installed
+  apt:
+    name:
+      - apt-transport-https
+      - curl
+    state: present
+
+- name: add kubernetes apt key
+  apt_key:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    state: present
+  register: add_repository_key
+
+- name: add kubernetes into sources list
+  ansible.builtin.apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes
+
+- name: install kubernetes packages
+  apt:
+    name:
+      - kubelet 
+      - kubeadm 
+      - kubectl
+    update_cache: yes
+    state: present
+
+- name: hold kubernetes packages
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: ensure kubelet is started and enabled at boot
+  service:
+    name: kubelet
+    state: started
+    enabled: true
+
+- include_tasks: setup-control-plane.yml
+  when: hostvars[inventory_hostname].tags.Kind == 'master_node'

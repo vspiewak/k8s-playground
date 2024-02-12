@@ -1,0 +1,76 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+
+- name: ensure dependencies are installed
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg2
+    state: present
+
+- name: add Docker apt repository key
+  get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+
+- name: add Docker repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    filename: docker
+    state: present
+    update_cache: true
+
+- name: install containerd
+  apt:
+    name: containerd.io
+    state: present
+    update_cache: true
+
+- name: ensure containerd is started and enabled at boot
+  service:
+    name: containerd
+    state: started
+    enabled: true
+
+- name: ensure containerd config directory exists
+  file:
+    path: /etc/containerd
+    state: directory
+  register: containerd_dir
+
+- name: get defaults from containerd
+  command: containerd config default
+  changed_when: false
+  register: containerd_config_default
+
+- name: prepare containerd/config.toml from default config
+  copy:
+    dest: /tmp/containerd_config.toml
+    content: "{{ containerd_config_default.stdout }}"
+  changed_when: false
+
+- name: set Cgroup driver to systemd
+  ansible.builtin.replace:
+    path: /tmp/containerd_config.toml
+    regexp: 'SystemdCgroup = false'
+    replace: 'SystemdCgroup = true'
+
+- name: copy config.toml to /etc/containerd
+  copy:
+    remote_src: true
+    src: /tmp/containerd_config.toml
+    dest: /etc/containerd/config.toml
+  notify: restart containerd
+
+- name: cleanup temporary file
+  file:
+    path: /tmp/containerd_config.toml
+    state: absent
+  changed_when: false
+
+- name: ensure containerd is restarted immediately if necessary.
+  meta: flush_handlers

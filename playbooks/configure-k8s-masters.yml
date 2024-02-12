@@ -1,0 +1,11 @@
+- hosts: name_master_node
+  gather_facts: true
+  user: ubuntu
+  become: true
+
+  roles:
+    #- debug
+    - common
+    - containerd
+    - kubeadm
+    - kubeadm-join

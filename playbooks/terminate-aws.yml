@@ -1,0 +1,14 @@
+- hosts: 
+    - name_master_node
+    - name_worker_node
+  gather_facts: true
+  connection: local
+
+  tasks:
+
+    - name: Terminate all EC2 instances
+      local_action:
+        module: ec2_instance
+        state: absent
+        region: "{{ hostvars[inventory_hostname].placement.region }}"
+        instance_ids: "{{ hostvars[inventory_hostname].instance_id }}"

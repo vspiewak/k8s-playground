@@ -1,0 +1,62 @@
+aws_label: from-ansible
+
+aws_region: eu-west-3
+
+aws_vpc:
+  cidr_block: 10.0.0.0/16
+
+aws_subnet:
+  az: eu-west-3a
+  cidr_block: 10.0.0.0/20
+
+aws_keypair: aws-ec2
+
+aws_instances:
+  - name: master_node
+    count: 1
+    type: t2.medium
+    ami: ami-01d21b7be69801c2f
+    security_group:
+      rules:
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 22
+      - proto: tcp
+        ports:
+          - 6443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 6443
+      - proto: tcp
+        ports:
+          - 2379-2380
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow vpc internal on ports 2379-2380
+      - proto: tcp
+        ports:
+          - 10250-10252
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow vpc internal on ports 10250-10252                 
+  - name: worker_node
+    count: 2
+    type: t2.medium
+    ami: ami-01d21b7be69801c2f
+    security_group:
+      rules:
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 22
+      - proto: tcp
+        ports:
+          - 10250
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow vpc internal on port 10250
+      - proto: tcp
+        ports:
+          - 30000-32767
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 30000-32767
+

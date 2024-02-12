@@ -1,0 +1,20 @@
+- name: Display all variables/facts known for a host
+  ansible.builtin.debug:
+    var: hostvars[inventory_hostname].tags.kind
+
+- name: Display all variables/facts known for a host
+  ansible.builtin.debug:
+    var: hostvars[inventory_hostname].tags
+  when: hostvars[inventory_hostname].tags.Kind == 'worker_node'
+
+- name: Display all variables/facts known for a host
+  ansible.builtin.debug:
+    msg: i'm in the group
+  with_items: "{{ groups['tag_Kind_worker_node'] }}"
+
+- name: Print all available facts
+  ansible.builtin.debug:
+    var: ansible_facts
+
+- debug:
+    msg: "{{ hostvars[inventory_hostname]['kubernetes_join_command'] }}"
