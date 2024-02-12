@@ -1,2 +1,2 @@
-- include: configure-k8s-masters.yml
-- include: configure-k8s-workers.yml
+- import_playbook: configure-k8s-masters.yml
+- import_playbook: configure-k8s-workers.yml
