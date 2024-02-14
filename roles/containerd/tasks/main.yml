@@ -72,5 +72,5 @@
     state: absent
   changed_when: false
 
-- name: ensure containerd is restarted immediately if necessary.
+- name: ensure containerd is restarted immediately if necessary
   meta: flush_handlers

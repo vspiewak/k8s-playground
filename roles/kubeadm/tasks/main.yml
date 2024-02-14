@@ -6,8 +6,10 @@
 - name: ensure dependencies are installed
   apt:
     name:
-      - apt-transport-https
-      - curl
+      - apt-transport-https 
+      - ca-certificates 
+      - curl 
+      - gpg
     state: present
 
 - name: add kubernetes apt key
