@@ -18,6 +18,9 @@ aws_instances:
     ami: ami-01d21b7be69801c2f
     security_group:
       rules:
+      - proto: 4
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on IPIP
       - proto: tcp
         ports:
           - 22
@@ -40,6 +43,11 @@ aws_instances:
         rule_desc: allow vpc internal on ports 2379-2380
       - proto: tcp
         ports:
+          - 5473
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on port 5473          
+      - proto: tcp
+        ports:
           - 10250-10252
         cidr_ip: 10.0.0.0/16
         rule_desc: allow vpc internal on ports 10250-10252                 
@@ -49,6 +57,9 @@ aws_instances:
     ami: ami-01d21b7be69801c2f
     security_group:
       rules:
+      - proto: 4
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on IPIP      
       - proto: tcp
         ports:
           - 22
@@ -57,8 +68,13 @@ aws_instances:
       - proto: tcp
         ports:
           - 179
-        cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 179        
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on port 179
+      - proto: tcp
+        ports:
+          - 5473
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on port 5473                   
       - proto: tcp
         ports:
           - 10250

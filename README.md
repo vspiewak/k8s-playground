@@ -14,4 +14,4 @@
     ansible-playbook -i inventory/aws_ec2.yml configure-k8s.yml
 
     # terminate AWS infra
-    ansible-playbook -i inventory/aws_ec2.yml terminate.yml
+    ansible-playbook -i inventory/aws_ec2.yml terminate-aws.yml

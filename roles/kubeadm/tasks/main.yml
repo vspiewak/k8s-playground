@@ -12,18 +12,26 @@
       - gpg
     state: present
 
+- name: ensure /etc/apt/keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: 0755
+
 - name: add kubernetes apt key
   apt_key:
-    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+    url: "https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key"
+    keyring: "/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
     state: present
   register: add_repository_key
 
-- name: add kubernetes into sources list
-  ansible.builtin.apt_repository:
-    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
-    state: present
+- name: add Kubernetes apt repository
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /"
     filename: kubernetes
-
+    state: present
+    update_cache: true
+    
 - name: install kubernetes packages
   apt:
     name:
