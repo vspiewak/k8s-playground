@@ -86,6 +86,7 @@
     instance_type: "{{item.type}}"
     image_id: "{{item.ami}}"
     exact_count: "{{item.count}}"
+    wait: true
     key_name: "{{ aws_keypair }}"
     region: "{{ aws_region }}"
     vpc_subnet_id: "{{ subnet_result.subnet.id }}"
