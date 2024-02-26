@@ -6,7 +6,7 @@
 
   tasks:
 
-    - name: Terminate all EC2 instances
+    - name: delete all EC2 instances
       local_action:
         module: ec2_instance
         state: absent
