@@ -1,0 +1,10 @@
+- name: check vxlanMode
+  shell: | 
+    kubectl get ippool default-ipv4-ippool -o yaml | grep vxlanMode: | awk '{ print $2 }'
+  changed_when: false
+  register: ippool_vxlanmode_result
+
+- name: set vxlanMode to Always
+  shell: |
+    kubectl get ippool default-ipv4-ippool -o yaml | sed -E 's/vxlanMode:.+/vxlanMode: Always/' | kubectl replace -f -
+  when: ippool_vxlanmode_result.stdout != 'Always'

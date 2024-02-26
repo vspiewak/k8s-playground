@@ -45,7 +45,11 @@ aws_instances:
         ports:
           - 5473
         cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 5473          
+      - proto: tcp
+        ports:
+          - 4789
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on port 4789        
       - proto: tcp
         ports:
           - 10250-10252
@@ -74,7 +78,12 @@ aws_instances:
         ports:
           - 5473
         cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 5473                   
+        rule_desc: allow all on port 5473  
+      - proto: tcp
+        ports:
+          - 4789
+        cidr_ip: 10.0.0.0/16
+        rule_desc: allow all on port 4789                         
       - proto: tcp
         ports:
           - 10250

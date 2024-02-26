@@ -1,7 +1,7 @@
 # k8s on AWS EC2
 
 > [!CAUTION]
-> Just for CKA purpose. Not production ready
+> Just for CKAD, CKA, CKS purpose. Not production ready
 
     # debug dynamic inventory
     ansible-inventory -i inventory/aws_ec2.yml --list
