@@ -1,4 +1,4 @@
-# k8s on AWS EC2
+# k8s playground
 
 > [!CAUTION]
 > Just a CKAD, CKA, CKS playground. Not production grade...
