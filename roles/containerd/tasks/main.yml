@@ -26,7 +26,8 @@
 
 - name: install containerd
   apt:
-    name: containerd.io
+    name: containerd.io={{containerd_version}}
+    allow_downgrade: true
     state: present
     update_cache: true
 

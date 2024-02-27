@@ -18,80 +18,111 @@ aws_instances:
     ami: ami-01d21b7be69801c2f
     security_group:
       rules:
-      - proto: 4
+      - proto: all
         cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on IPIP
-      - proto: tcp
-        ports:
-          - 22
-        cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 22
-      - proto: tcp
-        ports:
-          - 179
-        cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 179        
-      - proto: tcp
-        ports:
-          - 6443
-        cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 6443
-      - proto: tcp
-        ports:
-          - 2379-2380
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow vpc internal on ports 2379-2380
-      - proto: tcp
-        ports:
-          - 5473
-        cidr_ip: 10.0.0.0/16
-      - proto: tcp
-        ports:
-          - 4789
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 4789        
-      - proto: tcp
-        ports:
-          - 10250-10252
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow vpc internal on ports 10250-10252                 
+        rule_desc: open all
+      # - proto: 4
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on IPIP
+      # - proto: tcp
+      #   ports:
+      #     - 22
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: ssh - allow all on port 22
+      # - proto: tcp
+      #   ports:
+      #     - 179
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 179        
+      # - proto: tcp
+      #   ports:
+      #     - 443
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: https - allow all on port 443
+      # - proto: tcp
+      #   ports:
+      #     - 6443
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: k8s - allow all on port 6443
+      # - proto: tcp
+      #   ports:
+      #     - 2379-2380
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: k8s - allow internal on ports 2379-2380
+      # - proto: tcp
+      #   ports:
+      #     - 4789
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 4789       
+      # - proto: tcp
+      #   ports:
+      #     - 5473
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 5473         
+      # - proto: tcp
+      #   ports:
+      #     - 10250-10259
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: k8s - allow internal on ports 10250-10252
+      # - proto: tcp
+      #   ports:
+      #     - 51821
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 51821                       
   - name: worker_node
     count: 2
     type: t2.medium
     ami: ami-01d21b7be69801c2f
     security_group:
       rules:
-      - proto: 4
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on IPIP      
-      - proto: tcp
-        ports:
-          - 22
+      - proto: all
         cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 22
-      - proto: tcp
-        ports:
-          - 179
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 179
-      - proto: tcp
-        ports:
-          - 5473
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 5473  
-      - proto: tcp
-        ports:
-          - 4789
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow all on port 4789                         
-      - proto: tcp
-        ports:
-          - 10250
-        cidr_ip: 10.0.0.0/16
-        rule_desc: allow vpc internal on port 10250
-      - proto: tcp
-        ports:
-          - 30000-32767
-        cidr_ip: 0.0.0.0/0
-        rule_desc: allow all on port 30000-32767
-
+        rule_desc: open all      
+      # - proto: 4
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on IPIP      
+      # - proto: tcp
+      #   ports:
+      #     - 22
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: ssh - allow all on port 22
+      # - proto: tcp
+      #   ports:
+      #     - 179
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 179
+      # - proto: tcp
+      #   ports:
+      #     - 443
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: https - allow all on port 443
+      # - proto: tcp
+      #   ports:
+      #     - 6443
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: k8s - allow all on port 6443        
+      # - proto: tcp
+      #   ports:
+      #     - 4789
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 4789
+      # - proto: tcp
+      #   ports:
+      #     - 5473
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow internal on port 5473                             
+      # - proto: tcp
+      #   ports:
+      #     - 10250
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: k8s - allow internal on port 10250
+      # - proto: tcp
+      #   ports:
+      #     - 30000-32767
+      #   cidr_ip: 0.0.0.0/0
+      #   rule_desc: k8s - allow all on port 30000-32767
+      # - proto: tcp
+      #   ports:
+      #     - 51821
+      #   cidr_ip: 10.0.0.0/16
+      #   rule_desc: calico - allow all on port 51821 

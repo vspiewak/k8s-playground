@@ -20,34 +20,36 @@
 
 - name: add kubernetes apt key
   apt_key:
-    url: "https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key"
+    url: "{{ apt_key_url }}"
     keyring: "/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
     state: present
   register: add_repository_key
 
 - name: add Kubernetes apt repository
   apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /"
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] {{ apt_repo_url }} /"
     filename: kubernetes
     state: present
     update_cache: true
     
 - name: install kubernetes packages
   apt:
-    name:
-      - kubelet 
-      - kubeadm 
-      - kubectl
+    name: "{{ item }}"
+    allow_downgrade: true
     update_cache: yes
     state: present
+  loop:
+    - kubeadm={{kubeadm_version}} 
+    - kubelet={{kubelet_version}} 
+    - kubectl={{kubectl_version}} 
 
 - name: hold kubernetes packages
   dpkg_selections:
     name: "{{ item }}"
     selection: hold
   loop:
-    - kubelet
     - kubeadm
+    - kubelet
     - kubectl
 
 - name: ensure kubelet is started and enabled at boot

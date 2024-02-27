@@ -1,0 +1,10 @@
+apt_key_url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+apt_repo_url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/
+
+kubelet_version: 1.29.0-1.1
+kubeadm_version: 1.29.0-1.1
+kubectl_version: 1.29.0-1.1
+
+calico_version: v3.27.0
+
+pod_network_cidr: 192.168.0.0/16

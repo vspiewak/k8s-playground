@@ -1,7 +1,10 @@
 # k8s on AWS EC2
 
 > [!CAUTION]
-> Just for CKAD, CKA, CKS purpose. Not production ready
+> Just a CKAD, CKA, CKS playground. Not production grade...
+
+> [!IMPORTANT]  
+> Packages versions are fixed for reproducibility and *slightly* outdated to practice cluster update
 
     # debug dynamic inventory
     ansible-inventory -i inventory/aws_ec2.yml --list

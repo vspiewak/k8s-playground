@@ -1,6 +1,24 @@
+- name: wait control-plane to be ready
+  shell: |
+    kubectl get nodes | grep control-plane | awk '{ print $2 }'
+  changed_when: false
+  register: controlplane_status_result
+  until: controlplane_status_result.stdout == 'Ready'
+  retries: 10
+  delay: 5
+
+- name: wait all pods to be ready
+  shell: |
+    kubectl get pods -A --no-headers | awk '{ print $4 }' | uniq | grep -v Running | wc -l
+  changed_when: false
+  register: pods_status_result
+  until: pods_status_result.stdout == '0'
+  retries: 20
+  delay: 10
+
 - name: check vxlanMode
   shell: | 
-    kubectl get ippool default-ipv4-ippool -o yaml | grep vxlanMode: | awk '{ print $2 }'
+    kubectl get ippools.crd.projectcalico.org default-ipv4-ippool -o yaml | grep vxlanMode: | awk '{ print $2 }'
   changed_when: false
   register: ippool_vxlanmode_result
 

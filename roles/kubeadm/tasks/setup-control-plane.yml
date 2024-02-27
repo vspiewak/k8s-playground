@@ -6,7 +6,7 @@
 
 - name: initialize Kubernetes control plane with kubeadm init
   command: >
-    kubeadm init --pod-network-cidr=192.168.0.0/16
+    kubeadm init --pod-network-cidr={{ pod_network_cidr }}
   register: kubeadmin_init
   when: not kubernetes_init_stat.stat.exists
 
@@ -50,12 +50,12 @@
 
 - name: download calico tigera-operator.yaml
   get_url:
-    url: https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/tigera-operator.yaml
+    url: https://raw.githubusercontent.com/projectcalico/calico/{{calico_version}}/manifests/tigera-operator.yaml
     dest: /opt/calico/tigera-operator.yaml
 
 - name: download calico custom-resources.yaml
   get_url:
-    url: https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/custom-resources.yaml
+    url: https://raw.githubusercontent.com/projectcalico/calico/{{calico_version}}/manifests/custom-resources.yaml
     dest: /opt/calico/custom-resources.yaml
 
 - name: create calico tigera-operator
