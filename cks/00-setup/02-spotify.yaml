@@ -11,20 +11,20 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx
-  name: nginx
+    app: service1
+  name: service1
   namespace: spotify
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: nginx
+      app: service1
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: nginx
+        app: service1
     spec:
       containers:
       - image: nginx:alpine
@@ -36,7 +36,7 @@ spec:
             command:
             - sh
             - -c
-            - "echo 'spotify' > /usr/share/nginx/html/index.html"   
+            - "echo 'spotify service1' > /usr/share/nginx/html/index.html"   
         resources: {}
 status: {}
 ---
@@ -45,8 +45,8 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: nginx
-  name: nginx
+    app: service1
+  name: service1
   namespace: spotify
 spec:
   ports:
@@ -54,7 +54,59 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: nginx
+    app: service1
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: service2
+  name: service2
+  namespace: spotify
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service2
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: service2
+    spec:
+      containers:
+      - image: nginx:alpine
+        name: nginx
+        ports:
+        - containerPort: 80
+        startupProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "echo 'spotify service2' > /usr/share/nginx/html/index.html"   
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: service2
+  name: service2
+  namespace: spotify
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: service2
 status:
   loadBalancer: {}
 ---
@@ -77,3 +129,4 @@ spec:
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}
+---

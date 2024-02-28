@@ -1,0 +1,34 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+
+- name: ensure dependencies are installed
+  apt:
+    name:
+      - apt-transport-https 
+    state: present
+
+- name: ensure /etc/apt/keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: 0755
+
+- name: add Helm apt repository key
+  get_url:
+    url: https://baltocdn.com/helm/signing.asc
+    dest: /etc/apt/keyrings/helm.asc
+    mode: '0644'
+
+- name: add Helm apt repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/helm.asc] https://baltocdn.com/helm/stable/debian/ all main"
+    filename: helm
+    state: present
+    update_cache: true
+
+- name: install Helm
+  apt:
+    name: helm
+    state: present

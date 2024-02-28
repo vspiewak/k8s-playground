@@ -10,3 +10,4 @@
     - kubeadm
     - kubeadm-join
     - fix-ippool
+    - helm
