@@ -6,6 +6,7 @@
   roles:
     #- debug
     - common
+    - runsc
     - containerd
     - kubeadm
     - kubeadm-join

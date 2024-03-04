@@ -11,6 +11,7 @@
       - curl 
       - gpg
       - jq
+      - etcd-client
     state: present
 
 - name: ensure /etc/apt/keyrings directory exists

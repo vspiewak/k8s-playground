@@ -73,5 +73,10 @@
     state: absent
   changed_when: false
 
+- name: configure runtime-endpoint
+  copy:
+    src: crictl.yaml
+    dest: /etc/crictl.yaml
+
 - name: ensure containerd is restarted immediately if necessary
   meta: flush_handlers
