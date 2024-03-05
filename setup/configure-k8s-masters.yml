@@ -10,5 +10,7 @@
     - containerd
     - kubeadm
     - kubeadm-join
-    - fix-ippool
     - helm
+    - falco
+    - fix-ippool
+

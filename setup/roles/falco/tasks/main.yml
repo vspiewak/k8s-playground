@@ -1,0 +1,49 @@
+- name: update apt packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+
+- name: ensure dependencies are installed
+  apt:
+    name:
+      - dkms 
+      - make 
+      - linux-headers-{{ ansible_kernel }}
+      - dialog
+      - clang 
+      - llvm
+    state: present
+
+- name: ensure /etc/apt/keyrings directory exists
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: 0755
+
+- name: add falco apt repository key
+  get_url:
+    url: https://falco.org/repo/falcosecurity-packages.asc
+    dest: /etc/apt/keyrings/falcosecurity-packages.asc
+    mode: '0644'
+
+- name: add falco apt repository
+  apt_repository:
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/falcosecurity-packages.asc] https://download.falco.org/packages/deb stable main"
+    filename: falco
+    state: present
+    update_cache: true
+
+- name: install falco
+  apt:
+    name: falco
+    state: present
+    update_cache: yes
+  environment:
+    FALCO_FRONTEND: noninteractive
+    FALCO_DRIVER_CHOICE: modern_ebpf  
+
+- name: ensure falco plugins directory exists
+  file:
+    path: /usr/share/falco/plugins
+    state: directory
+    mode: 0755

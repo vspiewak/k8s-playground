@@ -91,6 +91,11 @@
     region: "{{ aws_region }}"
     vpc_subnet_id: "{{ subnet_result.subnet.id }}"
     security_group: "{{item.name}}_sg"
+    volumes:
+      - device_name: /dev/sda1
+        ebs:
+          volume_size: 20
+          delete_on_termination: true    
     network:
       assign_public_ip: true
       delete_on_termination: true
