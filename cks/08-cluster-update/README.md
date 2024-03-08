@@ -73,3 +73,4 @@
     kubectl uncordon -l node-role.kubernetes.io/control-plane=
 
 # TODO: same on workers...
+# TIP: kubeadm upgrade node

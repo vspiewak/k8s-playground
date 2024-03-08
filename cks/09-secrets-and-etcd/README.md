@@ -180,3 +180,9 @@ k8s:enc:aescbc:v1:key1:S���J�����;W	�<�6̢��^�^xN_x�
                                                                       ��� B�͔)��w*��x���r�^�Iw��kV����<N����CxK��
 E������%��VB|���e`��H�O���W�3���`װ�(��!��~�����l����ݛ@�9	�M�d�M�5����ve{�{V�M~��Yvy3�C�-�9>,
 ```
+
+### get secret from k8s api inside a pod
+```
+curl -k https://kubernetes.default/api/v1/namespaces/restricted/secrets \
+-H "Authorization: Bearer $(cat /run/secrets/kubernetes.io/serviceaccount/token)"
+```
