@@ -2,7 +2,9 @@
 
 ### scanning public images
 ```
-docker run aquasec/trivy:0.28.1 image nginx:latest
+# scan image nginx
+docker run aquasec/trivy:0.28.1 image nginx
 
-docker run aquasec/trivy:0.28.1 image registry.k8s.io/kube-apiserver:v1.29.2
+# scan image nginx for CRITICAL vulnerabilites
+docker run aquasec/trivy:0.28.1 image -s CRITICAL nginx:latest
 ```
