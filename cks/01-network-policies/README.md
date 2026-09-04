@@ -9,7 +9,10 @@ Deny traffic from/to other namespaces.
 
 
 > [!TIP]
-> Helpful advice for doing things better or more easily.
+> NetworkPolicies are additive and allow-only : there is no deny rule.
+> As soon as *one* policy with `policyTypes: Egress` selects a pod, everything not explicitly
+> allowed is dropped — including DNS to CoreDNS. That is why `04` breaks name resolution
+> and `05` has to give port 53 back (TCP *and* UDP).
 
 CIDR
 * 0.0.0.0/0 => every ip
